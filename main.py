@@ -96,7 +96,7 @@ for classification in clf.classifications:
 ##                     [0,3],
 ##                     [5,4],
 ##                     [6,4],])
-##
+## 
 ##for unknown in unknowns:
 ##    classification = clf.predict(unknown)
 ##    plt.scatter(unknown[0], unknown[1], marker="*", color=colors[classification], s=150, linewidths=5)
