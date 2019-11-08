@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import os
 from matplotlib import style
 style.use('ggplot')
 import numpy as np
@@ -41,13 +42,13 @@ X = np.array([[1, 2],
 colors = 10*["g","r","c","b","k"]
 
 def manhatan(a,b):
-    print(a,b)
-    print(type(a),type(b))
+    # print(a,b)
+    # print(type(a),type(b))
     a1 =a[0]
     a2 =a[1]
     b1=b[0]
     b2=b[1]
-    dist = abs(a1-b1)+abs(a2-b2)
+    dist = adder(int(abs(a1-b1)),int(abs(a2-b2)))
     return dist
 
 
@@ -116,7 +117,7 @@ for classification in clf.classifications:
 ##                     [0,3],
 ##                     [5,4],
 ##                     [6,4],])
-## 
+##
 ##for unknown in unknowns:
 ##    classification = clf.predict(unknown)
 ##    plt.scatter(unknown[0], unknown[1], marker="*", color=colors[classification], s=150, linewidths=5)
