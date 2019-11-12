@@ -4,20 +4,42 @@ from matplotlib import style
 style.use('ggplot')
 import numpy as np
 
+
+def multiply(a,b):
+	upperCode = "`include \"wallace16.v\"\nmodule top1;\nreg[15:0] a,b;\nwire[31:0] prod;\nwallace16 w(a,b,prod);\ninitial\nbegin\n"
+	variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";\n";
+	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",prod);\nend\nendmodule\n"
+	testBench = upperCode+variable+lowerCode
+
+	f=open("./mac/multiplier_tb.v","w")
+	f.write(testBench)
+	f.close()
+	os.chdir("./mac/")
+	cmd = "iverilog multiplier_tb.v"
+	os.system(cmd)
+	cmd = "./a.out > multiplierResult.txt"
+	os.system(cmd)
+
+	f=open("multiplierResult.txt","r")
+	res = f.read()
+	res = res.strip()
+	os.chdir("../")
+	return int(res)
+
+
+
+
 def adder(a,b):
-	# upperCode = "`include \"fulladder16bit.v\"\nmodule top;\nreg [15:0] a,b;\nreg ci;\nwire [15:0] sum;\nwire co;\nfulladder16bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-	# variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";ci=1'b0;\n";
-	# lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
 	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b0;\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	testBench = upperCode+variable+lowerCode
-	f=open("adder.v","w")
+	f=open("adder_tb.v","w")
 	f.write(testBench)
 	f.close()
-	cmd = "iverilog "+"adder.v "
+	cmd = "iverilog "+"adder_tb.v "
 	os.system(cmd)
 	cmd ="./a.out > adderResult.txt"
 	os.system(cmd)
@@ -52,7 +74,6 @@ def subtractor(a,b):
 	return int(res)
 
 #///
-
 
 X = np.array([[1, 2],
               [1.5, 1.8],
