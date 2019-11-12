@@ -127,7 +127,7 @@ X = np.array([[1, 2],
               [8,9],
               [0,3],
               [5,4],
-              [6,4],])
+              [6,4]])
 
 ##plt.scatter(X[:,0], X[:,1], s=150)
 ##plt.show()
@@ -146,7 +146,7 @@ def manhatan(a,b):
 
 
 class K_Means:
-    def __init__(self, k=2, tol=0.001, max_iter=5):
+    def __init__(self, k=3, tol=0.001, max_iter=5):
         self.k = k
         self.tol = tol
         self.max_iter = max_iter
