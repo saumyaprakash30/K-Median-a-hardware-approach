@@ -124,6 +124,7 @@ def summer(os,cc):
 
 
 
+
 X = np.array([[1, 2],
               [1.5, 1.8],
               [5, 6 ],
