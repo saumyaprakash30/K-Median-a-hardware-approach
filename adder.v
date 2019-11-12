@@ -1,13 +1,13 @@
-`include "fulladder16bit.v"
+`include "fulladder64bit.v"
 module top;
-reg [15:0] a,b;
+reg [63:0] a,b;
 reg ci;
-wire [15:0] sum;
+wire [63:0] sum;
 wire co;
-fulladder16bit f(a,b,ci,sum,co);
+fulladder64bit f(a,b,ci,sum,co);
 initial
 begin
-a=16'd0;b=16'd3;ci=1'b0;
+a=64'd0;b=64'd3;ci=1'b0;
 end
 initial
 begin

@@ -5,8 +5,12 @@ style.use('ggplot')
 import numpy as np
 
 def adder(a,b):
-	upperCode = "`include \"fulladder16bit.v\"\nmodule top;\nreg [15:0] a,b;\nreg ci;\nwire [15:0] sum;\nwire co;\nfulladder16bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-	variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";ci=1'b0;\n";
+	# upperCode = "`include \"fulladder16bit.v\"\nmodule top;\nreg [15:0] a,b;\nreg ci;\nwire [15:0] sum;\nwire co;\nfulladder16bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	# variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";ci=1'b0;\n";
+	# lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
+
+	upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b0;\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	testBench = upperCode+variable+lowerCode
@@ -20,6 +24,7 @@ def adder(a,b):
 	f =open("adderResult.txt","r")
 	res = f.read()
 	res=res.strip()
+
 	return int(res)
 
 
