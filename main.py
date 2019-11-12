@@ -74,6 +74,22 @@ def subtractor(a,b):
 	return int(res)
 
 #///
+#///
+def divide(a,b):
+	remainder = a
+	count=0
+	while (remainder >=b):
+		remainder=subtractor(remainder,b)
+		count=count +1
+	return count
+
+
+
+#//
+
+
+
+
 
 X = np.array([[1, 2],
               [1.5, 1.8],
@@ -176,3 +192,4 @@ for classification in clf.classifications:
 
 plt.show()
 print(subtractor(10,2))
+print(divide(10,2))
