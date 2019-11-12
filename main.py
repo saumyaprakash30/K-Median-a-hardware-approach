@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import os
 from matplotlib import style
@@ -26,6 +27,32 @@ def multiply(a,b):
 	os.chdir("../")
 	return int(res)
 
+def mac(a,b):
+
+	size = len(a)
+	upperCode = "`include \"mac.v\"\nmodule top1;\nreg [15:0] a,b;\nwire [35:0] out2;\nreg clk,reset;\nmac m1(a,b,clk,reset,out2);\ninitial\nbegin\n"
+	variable =""
+	for i,ival in enumerate(a):
+		variable+="#10;\n"
+		variable+="a="+str(a[i])+";b="+str(b[i])+";\n"
+
+	lowerCode = "end\ninitial\nbegin\nreset=1;\nclk =0;\na=16'd0;\nb=16'd0;\n#5 reset=0;\nforever #5 clk=~clk;\nend\ninitial\nbegin\n#"+str(((size+1)*10))+";\n$display(\"%d\",out2);\n$finish;\nend\nendmodule\n"
+	testBench = upperCode+variable+lowerCode
+
+	f=open("./mac/mac_tb.v","w")
+	f.write(testBench)
+	f.close()
+	os.chdir("./mac/")
+	cmd = "iverilog mac_tb.v"
+	os.system(cmd)
+	cmd = "./a.out > macResult.txt"
+	os.system(cmd)
+
+	f=open("macResult.txt","r")
+	res = f.read()
+	res = res.strip()
+	os.chdir("../")
+	return int(res)
 
 
 
@@ -48,6 +75,7 @@ def adder(a,b):
 	res=res.strip()
 
 	return int(res)
+
 
 
 X = np.array([[1, 2],
