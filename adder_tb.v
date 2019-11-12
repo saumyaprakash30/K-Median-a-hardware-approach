@@ -7,7 +7,7 @@ wire co;
 fulladder64bit f(a,b,ci,sum,co);
 initial
 begin
-a=64'd5;b=64'd1;ci=1'b0;
+a=64'd1;b=64'd0;ci=1'b0;
 end
 initial
 begin
