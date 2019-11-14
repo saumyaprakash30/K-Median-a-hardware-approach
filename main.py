@@ -7,17 +7,6 @@ import numpy as np
 
 
 def multiply(a,b):
-	signA=a/abs(a)
-	signB=b/abs(b)
-	sign_d=1
-	if(signA==signB):
-		a=abs(a)
-		b=abs(b)
-		sign_d=1
-	else:
-		a=abs(a)
-		b=abs(b)
-		sign_d=-1
 	upperCode = "`include \"wallace16.v\"\nmodule top1;\nreg[15:0] a,b;\nwire[31:0] prod;\nwallace16 w(a,b,prod);\ninitial\nbegin\n"
 	variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",prod);\nend\nendmodule\n"
@@ -68,33 +57,31 @@ def mac(a,b):
 
 
 def adder(a,b):
-		upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a="+str(a)+";b="+str(b)+";ci=1'b0;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-		testBench = upperCode+variable+lowerCode
-		f=open("adder_tb.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder_tb.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		f.close()
-		return int(res)
 
+	upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b0;\n";
+	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
+
+	testBench = upperCode+variable+lowerCode
+	f=open("adder_tb.v","w")
+	f.write(testBench)
+	f.close()
+	cmd = "iverilog "+"adder_tb.v "
+	os.system(cmd)
+	cmd ="./a.out > adderResult.txt"
+	os.system(cmd)
+	f =open("adderResult.txt","r")
+	res = f.read()
+	res=res.strip()
+
+	return int(res)
 
 #///
 def subtractor(a,b):
 
-	modA=abs(a)
-	modB=abs(b)
-	signA=a/modA
-	signB=b/modB
-	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-	variable = "a="+str(a)+";b="+str(b)+";ci=1'b1;\n";
+
+	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b1;\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	testBench = upperCode+variable+lowerCode
@@ -114,37 +101,16 @@ def subtractor(a,b):
 #///
 #///
 def divide(a,b):
-	if(a<b):
-		return a/b
-	signA=a/abs(a)
-	signB=b/abs(b)
-	sign_d=1
-	if(signA==signB):
-		a=abs(a)
-		b=abs(b)
-		sign_d=1
-	else:
-		a=abs(a)
-		b=abs(b)
-		sign_d=-1
 	remainder = a
 	count=0
 	while (remainder >=b):
 		remainder=subtractor(remainder,b)
 		count=count +1
-	return count*(sign_d)+remainder/b
+	return count
 
 
 
 #//
-def summer(os,cc):
-	tmp_lst=[0,0]
-	print(os,cc)
-	tmp_lst[0]=(cc[0]-os[0])/os[0]*100
-	tmp_lst[1]=(cc[1]-os[1])/os[1]*100
-	return sum(tmp_lst)
-
-
 
 
 
@@ -167,13 +133,6 @@ X = np.array([[1, 2],
 # plt.show()
 
 colors = 10*["g","r","c","b","k"]
-
-
-print(adder(1,1),adder(-1,-1),adder(-1,5),adder(-5,3),adder(3,-5),adder(5,-2))
-print(subtractor(5,1),subtractor(-5,-3))
-print(divide(-5,3))
-print(multiply(-5,-5),multiply(-3,2),divide(-5,-2))
-
 
 def manhatan(a,b):
 	# print(a,b)
@@ -226,10 +185,15 @@ class K_Means:
 			for c in self.centroids:
 				original_centroid = prev_centroids[c]
 				current_centroid = self.centroids[c]
-				#print(":;",current_centroid,original_centroid)
-				print("my func",summer(original_centroid,current_centroid))
+				print("::",current_centroid,original_centroid)
+				a0list =[]
+				a1list =[]
+				b0list=[]
+				b1list =[]
+
+				print(a0list)
 				if np.sum((current_centroid-original_centroid)/original_centroid*100.0) > self.tol:
-					print("this np",np.sum((current_centroid-original_centroid)/original_centroid*100.0))
+					print(np.sum((current_centroid-original_centroid)/original_centroid*100.0))
 					optimized = False
 
 			if optimized:
