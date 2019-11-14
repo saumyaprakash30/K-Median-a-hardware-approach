@@ -9,7 +9,7 @@ import numpy as np
 def multiply(a,b):
 	if(a==0 or b==0):
 		return 0
-	print(a,b,"ab")
+	# print(a,b,"ab")
 	f_a = a-int(a)
 	f_b = b-int(b)
 	I_a = int(a)
@@ -187,13 +187,13 @@ X = np.array([[1, 2],
 
 colors = 10*["g","r","c","b","k"]
 
-
+'''
 print(adder(1,1),adder(-1,-1),adder(-1,5),adder(-5,3),adder(3,-5),adder(5,-2))
 print(subtractor(5,1),subtractor(-5,-3))
 print(divide(-5,3))
 print(multiply(-5,-5),multiply(-3,2),divide(-5,-2))
 print(multiply(2.5,2.5))
-
+'''
 
 def manhatan(a,b):
 	# print(a,b)
@@ -218,7 +218,7 @@ class K_Means:
 		while(self.k>len(listK)):
 			r=random.randint(1,self.k)
 			if r not in listK: listK.append(r)
-		print("lik",listK)
+		# print("lik",listK)
 		for i,ival in enumerate(listK):
 			self.centroids[i] = data[ival]
 
@@ -286,5 +286,3 @@ for classification in clf.classifications:
 #
 
 plt.show()
-print(subtractor(10,2))
-print(divide(10,2))
