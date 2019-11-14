@@ -7,6 +7,17 @@ import numpy as np
 
 
 def multiply(a,b):
+	signA=a/abs(a)
+	signB=b/abs(b)
+	sign_d=1
+	if(signA==signB):
+		a=abs(a)
+		b=abs(b)
+		sign_d=1
+	else:
+		a=abs(a)
+		b=abs(b)
+		sign_d=-1
 	upperCode = "`include \"wallace16.v\"\nmodule top1;\nreg[15:0] a,b;\nwire[31:0] prod;\nwallace16 w(a,b,prod);\ninitial\nbegin\n"
 	variable = "a=16'd"+str(a)+";b=16'd"+str(b)+";\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",prod);\nend\nendmodule\n"
@@ -103,12 +114,25 @@ def subtractor(a,b):
 #///
 #///
 def divide(a,b):
+	if(a<b):
+		return a/b
+	signA=a/abs(a)
+	signB=b/abs(b)
+	sign_d=1
+	if(signA==signB):
+		a=abs(a)
+		b=abs(b)
+		sign_d=1
+	else:
+		a=abs(a)
+		b=abs(b)
+		sign_d=-1
 	remainder = a
 	count=0
 	while (remainder >=b):
 		remainder=subtractor(remainder,b)
 		count=count +1
-	return count
+	return count*(sign_d)+remainder/b
 
 
 
@@ -147,6 +171,8 @@ colors = 10*["g","r","c","b","k"]
 
 print(adder(1,1),adder(-1,-1),adder(-1,5),adder(-5,3),adder(3,-5),adder(5,-2))
 print(subtractor(5,1),subtractor(-5,-3))
+print(divide(-5,3))
+print(multiply(-5,-5),multiply(-3,2),divide(-5,-2))
 
 
 def manhatan(a,b):
