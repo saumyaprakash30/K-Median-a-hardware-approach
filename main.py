@@ -36,7 +36,7 @@ def mac(a,b):
 		variable+="#10;\n"
 		variable+="a="+str(a[i])+";b="+str(b[i])+";\n"
 
-	lowerCode = "end\ninitial\nbegin\nreset=1;\nclk =0;\na=16'd0;\nb=16'd0;\n#5 reset=0;\nforever #5 clk=~clk;\nend\ninitial\nbegin\n#"+str(((size+1)*10))+";\n$display(\"%d\",out2);\n$finish;\nend\nendmodule\n"
+	lowerCode = "end\ninitial\nbegin\nreset=1;\nclk =0;\na=16'd0;\nb=16'd0;\n#5 reset=0;\nforever #5 clk=~clk;\nend\ninitial\nbegin\n#"+str((multiply((size+1),10)))+";\n$display(\"%d\",out2);\n$finish;\nend\nendmodule\n"
 	testBench = upperCode+variable+lowerCode
 
 	f=open("./mac/mac_tb.v","w")
@@ -129,8 +129,8 @@ X = np.array([[1, 2],
               [5,4],
               [6,4]])
 
-##plt.scatter(X[:,0], X[:,1], s=150)
-##plt.show()
+plt.scatter(X[:,0], X[:,1], s=150)
+plt.show()	
 
 colors = 10*["g","r","c","b","k"]
 
@@ -157,7 +157,7 @@ class K_Means:
 		while(self.k>len(listK)):
 			r=random.randint(1,self.k)
 			if r not in listK: listK.append(r)
-		print("lik",listK)
+		# print("lik",listK)
 		for i,ival in enumerate(listK):
 			self.centroids[i] = data[ival]
 
@@ -185,7 +185,13 @@ class K_Means:
 			for c in self.centroids:
 				original_centroid = prev_centroids[c]
 				current_centroid = self.centroids[c]
-				print(":;",current_centroid,original_centroid)
+				print("::",current_centroid,original_centroid)
+				a0list =[]
+				a1list =[]
+				b0list=[]
+				b1list =[]
+
+				print(a0list)
 				if np.sum((current_centroid-original_centroid)/original_centroid*100.0) > self.tol:
 					print(np.sum((current_centroid-original_centroid)/original_centroid*100.0))
 					optimized = False
