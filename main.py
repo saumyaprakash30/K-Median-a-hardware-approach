@@ -57,14 +57,8 @@ def mac(a,b):
 
 
 def adder(a,b):
-	# adding logic for -ve numbers etc
-	modA=abs(a)
-	modB=abs(b)
-	signA=a/modA
-	signB=b/modB
-	if(signA==signB and signA>0):
-		upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b0;\n";
+		upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+		variable = "a="+str(a)+";b="+str(b)+";ci=1'b0;\n";
 		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 		testBench = upperCode+variable+lowerCode
 		f=open("adder_tb.v","w")
@@ -79,99 +73,17 @@ def adder(a,b):
 		res=res.strip()
 		f.close()
 		return int(res)
-	elif (signA==signB and signA<0):
-		upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(modA)+";b=64'd"+str(modB)+";ci=1'b0;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-		testBench = upperCode+variable+lowerCode
-		f=open("adder_tb.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder_tb.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		f.close()
-		return (int(res)*(-1))
-	elif(signA>signB and modA > modB):
-		upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(modA)+";b=64'd"+str(modB)+";ci=1'b1;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-
-		testBench = upperCode+variable+lowerCode
-		f=open("adder.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		return int(res)
-	elif(signA>signB and modA<modB):
-		upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(modB)+";b=64'd"+str(modA)+";ci=1'b1;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-
-		testBench = upperCode+variable+lowerCode
-		f=open("adder.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		return int(res)*(-1)
-	elif(signB>signA and modB>modA):
-		upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(modB)+";b=64'd"+str(modA)+";ci=1'b1;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-
-		testBench = upperCode+variable+lowerCode
-		f=open("adder.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		return int(res)
-	elif(signB>signA and modB<modA):
-		upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a=64'd"+str(modA)+";b=64'd"+str(modB)+";ci=1'b1;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-
-		testBench = upperCode+variable+lowerCode
-		f=open("adder.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		return int(res)*(-1)
 
 
 #///
 def subtractor(a,b):
 
-
-	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b1;\n";
+	modA=abs(a)
+	modB=abs(b)
+	signA=a/modA
+	signB=b/modB
+	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a="+str(a)+";b="+str(b)+";ci=1'b1;\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	testBench = upperCode+variable+lowerCode
@@ -234,6 +146,8 @@ colors = 10*["g","r","c","b","k"]
 
 
 print(adder(1,1),adder(-1,-1),adder(-1,5),adder(-5,3),adder(3,-5),adder(5,-2))
+print(subtractor(5,1),subtractor(-5,-3))
+
 
 def manhatan(a,b):
 	# print(a,b)
