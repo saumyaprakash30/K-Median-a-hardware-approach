@@ -7,11 +7,9 @@ mac m1(a,b,clk,reset,out2);
 initial
 begin
 #10;
-a=2;b=3;
+a=0;b=1;
 #10;
-a=3;b=2;
-#10;
-a=4;b=1;
+a=-0.0;b=1;
 end
 initial
 begin
@@ -24,7 +22,7 @@ forever #5 clk=~clk;
 end
 initial
 begin
-#40;
+#30;
 $display("%d",out2);
 $finish;
 end

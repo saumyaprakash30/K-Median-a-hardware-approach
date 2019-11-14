@@ -7,12 +7,17 @@ import numpy as np
 
 
 def multiply(a,b):
+	if(a==0 or b==0):
+		return 0
+	print(a,b,"ab")
 	f_a = a-int(a)
 	f_b = b-int(b)
 	I_a = int(a)
 	I_b = int(b)
 	a=I_a
 	b=I_b
+	if(a==0 or b==0):
+		return(I_a+f_a)*(I_b*f_b)
 	signA=a/abs(a)
 	signB=b/abs(b)
 	sign_d=1
@@ -120,6 +125,10 @@ def subtractor(a,b):
 #///
 #///
 def divide(a,b):
+	if(a==0):
+		return 0
+	if(b==0):
+		return 0
 	if(a<b):
 		return a/b
 	signA=a/abs(a)
@@ -143,14 +152,18 @@ def divide(a,b):
 
 
 #//
-def summer(os,cc):
-	tmp_lst=[0,0]
-	print(os,cc)
-	tmp_lst[0]=(cc[0]-os[0])/os[0]*100
-	tmp_lst[1]=(cc[1]-os[1])/os[1]*100
-	return sum(tmp_lst)
+def arr_ops(current_centroid,original_centroid):
+	lst=[]
+	lst2=[]
 
+	# rs = np.sum((current_centroid-original_centroid)/original_centroid*100.0)
+	for i in range(0,len(current_centroid)):
+		z=multiply(divide(subtractor(current_centroid[i],original_centroid[i]),original_centroid[i]),100)
+		lst.append(z)
+		lst2.append(1)
 
+	# Call mac here
+	return mac(lst,lst2)
 
 
 
@@ -234,9 +247,11 @@ class K_Means:
 				original_centroid = prev_centroids[c]
 				current_centroid = self.centroids[c]
 				#print(":;",current_centroid,original_centroid)
-				print("my func",summer(original_centroid,current_centroid))
-				if np.sum((current_centroid-original_centroid)/original_centroid*100.0) > self.tol:
-					print("this np",np.sum((current_centroid-original_centroid)/original_centroid*100.0))
+				# print("my func",summer(original_centroid,current_centroid))
+				# if np.sum((current_centroid-original_centroid)/original_centroid*100.0) or arr_ops(current_centroid,original_centroid) > self.tol:
+				if arr_ops(current_centroid,original_centroid) > self.tol:
+
+					# print("this np",np.sum((current_centroid-original_centroid)/original_centroid*100.0))
 					optimized = False
 
 			if optimized:
