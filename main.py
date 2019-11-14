@@ -111,6 +111,14 @@ def divide(a,b):
 
 
 #//
+def summer(os,cc):
+	tmp_lst=[0,0]
+	print(os,cc)
+	tmp_lst[0]=(cc[0]-os[0])/os[0]*100
+	tmp_lst[1]=(cc[1]-os[1])/os[1]*100
+	return sum(tmp_lst)
+
+
 
 
 
@@ -185,9 +193,10 @@ class K_Means:
 			for c in self.centroids:
 				original_centroid = prev_centroids[c]
 				current_centroid = self.centroids[c]
-				print(":;",current_centroid,original_centroid)
+				#print(":;",current_centroid,original_centroid)
+				print("my func",summer(original_centroid,current_centroid))
 				if np.sum((current_centroid-original_centroid)/original_centroid*100.0) > self.tol:
-					print(np.sum((current_centroid-original_centroid)/original_centroid*100.0))
+					print("this np",np.sum((current_centroid-original_centroid)/original_centroid*100.0))
 					optimized = False
 
 			if optimized:
