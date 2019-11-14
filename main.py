@@ -7,6 +7,12 @@ import numpy as np
 
 
 def multiply(a,b):
+	f_a = a-int(a)
+	f_b = b-int(b)
+	I_a = int(a)
+	I_b = int(b)
+	a=I_a
+	b=I_b
 	signA=a/abs(a)
 	signB=b/abs(b)
 	sign_d=1
@@ -36,7 +42,7 @@ def multiply(a,b):
 	res = f.read()
 	res = res.strip()
 	os.chdir("../")
-	return int(res)
+	return (int(res)+f_b*I_a+f_a*I_b+f_a*f_b)
 
 def mac(a,b):
 
@@ -173,6 +179,7 @@ print(adder(1,1),adder(-1,-1),adder(-1,5),adder(-5,3),adder(3,-5),adder(5,-2))
 print(subtractor(5,1),subtractor(-5,-3))
 print(divide(-5,3))
 print(multiply(-5,-5),multiply(-3,2),divide(-5,-2))
+print(multiply(2.5,2.5))
 
 
 def manhatan(a,b):
