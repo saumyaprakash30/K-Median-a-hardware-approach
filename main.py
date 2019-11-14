@@ -58,7 +58,7 @@ def mac(a,b):
 		variable+="#10;\n"
 		variable+="a="+str(a[i])+";b="+str(b[i])+";\n"
 
-	lowerCode = "end\ninitial\nbegin\nreset=1;\nclk =0;\na=16'd0;\nb=16'd0;\n#5 reset=0;\nforever #5 clk=~clk;\nend\ninitial\nbegin\n#"+str(((size+1)*10))+";\n$display(\"%d\",out2);\n$finish;\nend\nendmodule\n"
+	lowerCode = "end\ninitial\nbegin\nreset=1;\nclk =0;\na=16'd0;\nb=16'd0;\n#5 reset=0;\nforever #5 clk=~clk;\nend\ninitial\nbegin\n#"+str((multiply((size+1),10)))+";\n$display(\"%d\",out2);\n$finish;\nend\nendmodule\n"
 	testBench = upperCode+variable+lowerCode
 
 	f=open("./mac/mac_tb.v","w")
@@ -79,33 +79,31 @@ def mac(a,b):
 
 
 def adder(a,b):
-		upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-		variable = "a="+str(a)+";b="+str(b)+";ci=1'b0;\n";
-		lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
-		testBench = upperCode+variable+lowerCode
-		f=open("adder_tb.v","w")
-		f.write(testBench)
-		f.close()
-		cmd = "iverilog "+"adder_tb.v "
-		os.system(cmd)
-		cmd ="./a.out > adderResult.txt"
-		os.system(cmd)
-		f =open("adderResult.txt","r")
-		res = f.read()
-		res=res.strip()
-		f.close()
-		return int(res)
 
+	upperCode = "`include \"fulladder64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfulladder64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b0;\n";
+	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
+
+	testBench = upperCode+variable+lowerCode
+	f=open("adder_tb.v","w")
+	f.write(testBench)
+	f.close()
+	cmd = "iverilog "+"adder_tb.v "
+	os.system(cmd)
+	cmd ="./a.out > adderResult.txt"
+	os.system(cmd)
+	f =open("adderResult.txt","r")
+	res = f.read()
+	res=res.strip()
+
+	return int(res)
 
 #///
 def subtractor(a,b):
 
-	modA=abs(a)
-	modB=abs(b)
-	signA=a/modA
-	signB=b/modB
-	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg signed [63:0] a,b;\nreg ci;\nwire signed [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
-	variable = "a="+str(a)+";b="+str(b)+";ci=1'b1;\n";
+
+	upperCode = "`include \"fullsubtractor64bit.v\"\nmodule top;\nreg [63:0] a,b;\nreg ci;\nwire [63:0] sum;\nwire co;\nfullsubtractor64bit f(a,b,ci,sum,co);\ninitial\nbegin\n"
+	variable = "a=64'd"+str(a)+";b=64'd"+str(b)+";ci=1'b1;\n";
 	lowerCode  ="end\ninitial\nbegin\n\n$monitor(\"%d\",sum);\nend\nendmodule\n"
 
 	testBench = upperCode+variable+lowerCode
@@ -147,7 +145,7 @@ def divide(a,b):
 	while (remainder >=b):
 		remainder=subtractor(remainder,b)
 		count=count +1
-	return count*(sign_d)+remainder/b
+	return count
 
 
 
@@ -182,8 +180,8 @@ X = np.array([[1, 2],
               [5,4],
               [6,4]])
 
-##plt.scatter(X[:,0], X[:,1], s=150)
-##plt.show()
+# plt.scatter(X[:,0], X[:,1], s=150)
+# plt.show()
 
 colors = 10*["g","r","c","b","k"]
 
@@ -218,7 +216,7 @@ class K_Means:
 		while(self.k>len(listK)):
 			r=random.randint(1,self.k)
 			if r not in listK: listK.append(r)
-		print("lik",listK)
+		# print("lik",listK)
 		for i,ival in enumerate(listK):
 			self.centroids[i] = data[ival]
 
