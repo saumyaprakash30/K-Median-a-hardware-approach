@@ -1,4 +1,9 @@
 import random
+import pandas
+datasets = pandas.read_csv("datasets1.csv")
+x=datasets.iloc[:,:].values
+print(x)
+
 import matplotlib.pyplot as plt
 import os
 from matplotlib import style
@@ -170,18 +175,18 @@ def arr_ops(current_centroid,original_centroid):
 
 
 
-X = np.array([[1, 2],
-              [1.5, 1.8],
-              [5, 6 ],
-              [8, 8],
-              [1, 0.6],
-              [9,11],
-              [1,3],
-              [8,9],
-              [0,3],
-              [5,4],
-              [6,4]])
-
+# X = np.array([[1, 2],
+#               [1.5, 1.8],
+#               [5, 6 ],
+#               [8, 8],
+#               [1, 0.6],
+#               [9,11],
+#               [1,3],
+#               [8,9],
+#               [0,3],
+#               [5,4],
+#               [6,4]])
+X = np.array(x)
 ##plt.scatter(X[:,0], X[:,1], s=150)
 ##plt.show()
 
@@ -207,7 +212,7 @@ def manhatan(a,b):
 
 listK =[]
 class K_Means:
-	def __init__(self, k=3, tol=0.001, max_iter=5):
+	def __init__(self, k=5, tol=0.001, max_iter=5):
 		self.k = k
 		self.tol = tol
 		self.max_iter = max_iter
