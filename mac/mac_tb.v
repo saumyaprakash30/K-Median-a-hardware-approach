@@ -7,9 +7,9 @@ mac m1(a,b,clk,reset,out2);
 initial
 begin
 #10;
-a=0.0;b=1;
+a=10.792933193143925;b=1;
 #10;
-a=-0.0;b=1;
+a=-12.502467366397473;b=1;
 end
 initial
 begin

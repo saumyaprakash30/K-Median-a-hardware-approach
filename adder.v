@@ -7,7 +7,7 @@ wire co;
 fullsubtractor64bit f(a,b,ci,sum,co);
 initial
 begin
-a=350748.5;b=352716;ci=1'b1;
+a=3579.5499999999997;b=3468.8199999999997;ci=1'b1;
 end
 initial
 begin

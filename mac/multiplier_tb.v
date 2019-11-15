@@ -5,7 +5,7 @@ wire[31:0] prod;
 wallace16 w(a,b,prod);
 initial
 begin
-a=16'd2;b=16'd2;
+a=16'd31;b=16'd100;
 end
 initial
 begin
